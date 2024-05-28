@@ -7,7 +7,7 @@ int main(int argc, char *argv[]) {
     float precios[maximoinventario];
     int cantidades[maximoinventario];
     int numeroitem = 0, opcion, opcionr;
-    printf("BIENVENIDOS A CARNICERIA WALDOWN");
+    printf("BIENVENIDOS A CARNICERIA WALDO");
     do {
         printf("Seleccione una opcion:\n1. Ingresar Alimentos\n2. Buscar alimentos\n3. Eliminar alimentos\n4. Editar alimento\n5. Imprimir Inventario\n>> ");
         scanf("%d", &opcion);
