@@ -83,6 +83,7 @@ void eliminarAlimento(char alimentos[][30], float precios[], int cantidades[], i
         printf("No existe el alimento %s en el inventario.\n", nombreAlimento);
     }
 }
+
 void opcionIngresarAlimentos(char alimentos[][30], float precios[], int cantidades[], int *numeroitem, int maximoinventario) {
     int nuevosAlimentos;
     printf("¿Cuantos alimentos desea ingresar? ");
@@ -103,88 +104,91 @@ void opcionBuscarAlimento(char alimentos[][30], float precios[], int cantidades[
     imprimirAlimentoIndex(alimentos, precios, cantidades, index);
 }
 
-void leeralimentos(char alimentos[][30], char *alimentodoc) {
-    FILE *file = fopen("D:/Documentos/alimentos.txt", "r");
+int leeralimentos(char alimentos[][30], char *alimentodoc) {
+    FILE *file = fopen(alimentodoc, "r");
     if (!file) {
         printf("No se pudo abrir el archivo %s\n", alimentodoc);
-        FILE *file = fopen("D:/Documentos/alimentos.txt", "w");
-        return;
-    }
-    for (int i = 0; i < 10; i++) {
-        if (fscanf(file, "%s", alimentos[i]) != 1) {
-            break;
+        file = fopen(alimentodoc, "w");
+        if (!file) {
+            printf("No se pudo crear el archivo %s\n", alimentodoc);
         }
+        return 0;
+    }
+    int i = 0;
+    while (i < 10 && fscanf(file, "%s", alimentos[i]) == 1) {
+        i++;
     }
     fclose(file);
+    return i;
 }
 
-void leerprecios(float precios[], char *preciosdoc) {
-    FILE *file = fopen("D:/Documentos/precios.txt", "r");
+void leerprecios(float precios[], char *preciosdoc, int n) {
+    FILE *file = fopen(preciosdoc, "r");
     if (!file) {
         printf("No se pudo abrir el archivo %s\n", preciosdoc);
-        FILE *file = fopen("D:/Documentos/precios.txt", "w");
+        file = fopen(preciosdoc, "w");
+        if (!file) {
+            printf("No se pudo crear el archivo %s\n", preciosdoc);
+        }
         return;
     }
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < n; i++) {
         if (fscanf(file, "%f", &precios[i]) != 1) {
-            break;
+            precios[i] = 0;
         }
     }
-    
     fclose(file);
 }
 
-void leercantidades(int cantidades[], char *cantidadesdoc) {
-    FILE *file = fopen("D:/Documentos/cantidades.txt", "r");
+void leercantidades(int cantidades[], char *cantidadesdoc, int n) {
+    FILE *file = fopen(cantidadesdoc, "r");
     if (!file) {
         printf("No se pudo abrir el archivo %s\n", cantidadesdoc);
-        FILE *file = fopen("D:/Documentos/cantidades.txt", "w");
+        file = fopen(cantidadesdoc, "w");
+        if (!file) {
+            printf("No se pudo crear el archivo %s\n", cantidadesdoc);
+        }
         return;
     }
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < n; i++) {
         if (fscanf(file, "%d", &cantidades[i]) != 1) {
-            break;
+            cantidades[i] = 0;
         }
     }
-    
     fclose(file);
 }
 
-void guardaralimentos(char alimentos[][30], char *alimentodoc) {
-    FILE *file = fopen("D:/Documentos/alimentos.txt", "w");
+void guardaralimentos(char alimentos[][30], char *alimentodoc, int n) {
+    FILE *file = fopen(alimentodoc, "w");
     if (!file) {
         printf("No se pudo abrir el archivo %s\n", alimentodoc);
         return;
     }
-    for (int i = 0; i < 10; i++) {
-        if (alimentos[i][0] != '\0') {
-            fprintf(file, "%s\n", alimentos[i]);
-        }
+    for (int i = 0; i < n; i++) {
+        fprintf(file, "%s\n", alimentos[i]);
     }
     fclose(file);
 }
 
-void guardarprecios(float precios[], char *preciosdoc) {
-    FILE *file = fopen("D:/Documentos/precios.txt", "w");
+void guardarprecios(float precios[], char *preciosdoc, int n) {
+    FILE *file = fopen(preciosdoc, "w");
     if (!file) {
         printf("No se pudo abrir el archivo %s\n", preciosdoc);
         return;
     }
-    for (int i = 0; i < 10; i++) {
-        if (precios[i] != 0.0) {
-            fprintf(file, "%f\n", precios[i]);
-        }
+    for (int i = 0; i < n; i++) {
+        fprintf(file, "%.2f\n", precios[i]);
     }
     fclose(file);
 }
 
-void guardarcantidades(int cantidades[], char *cantidadesdoc) {
-    FILE *file = fopen("D:/Documentos/cantidades.txt", "w");
+void guardarcantidades(int cantidades[], char *cantidadesdoc, int n) {
+    FILE *file = fopen(cantidadesdoc, "w");
     if (!file) {
         printf("No se pudo abrir el archivo %s\n", cantidadesdoc);
         return;
     }
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < n; i++) {
         fprintf(file, "%d\n", cantidades[i]);
     }
     fclose(file);
